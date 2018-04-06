@@ -1,18 +1,14 @@
 package work.test.sergii.pwwallet.entities;
 
+import android.content.ContentValues;
+
+import work.test.sergii.pwwallet.db.DBContract;
+
 /**
  * Created by sergii on 26.03.18.
  */
 
 public class Account {
-
-    public static String TABLENAME = "account";
-
-    public static String USERNAME = "username";
-    public static String PASSWORD = "password";
-    public static String EMAIL = "email";
-    public static String TOKEN = "token";
-    public static String BALANCE = "balance";
 
     private String username;
     private String email;
@@ -67,4 +63,17 @@ public class Account {
     public void decrementBalance(double amount){
         this.balance -= amount;
     }
+
+    public ContentValues getContentValues(){
+        ContentValues cv = new ContentValues();
+
+        cv.put(DBContract.Account.USERNAME, this.username);
+        cv.put(DBContract.Account.EMAIL, this.email);
+        cv.put(DBContract.Account.PASSWORD, this.password);
+        cv.put(DBContract.Account.BALANCE, this.balance);
+        cv.put(DBContract.Account.TOKEN, this.token);
+
+        return cv;
+    }
+
 }

@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import work.test.sergii.pwwallet.MainController;
 import work.test.sergii.pwwallet.R;
 import work.test.sergii.pwwallet.ui.fragments.LoginFragment;
 import work.test.sergii.pwwallet.ui.fragments.RegistrationFragment;
@@ -21,6 +22,8 @@ public class StartActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private MainController mainController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class StartActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        mainController = MainController.getInstance(this);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -43,6 +48,10 @@ public class StartActivity extends AppCompatActivity {
         adapter.addFragment(new LoginFragment(), getString(R.string.login));
         adapter.addFragment(new RegistrationFragment(), getString(R.string.registration));
         viewPager.setAdapter(adapter);
+    }
+
+    public MainController getMainController(){
+        return mainController;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

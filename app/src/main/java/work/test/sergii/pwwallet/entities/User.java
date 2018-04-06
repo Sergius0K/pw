@@ -1,17 +1,14 @@
 package work.test.sergii.pwwallet.entities;
 
+import android.content.ContentValues;
+
+import work.test.sergii.pwwallet.db.DBContract;
+
 /**
  * Created by sergii on 26.03.18.
  */
 
 public class User {
-
-    public static String TABLENAME = "user";
-
-    public static String ID = "id";
-    public static String USERNAME = "username";
-    public static String EMAIL = "email";
-    public static String BALANCE = "balance";
 
     private String id;
     private String username;
@@ -48,5 +45,15 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public ContentValues getContentValues(){
+        ContentValues cv = new ContentValues();
+
+        cv.put(DBContract.User.USERNAME, this.username);
+        cv.put(DBContract.User.EMAIL, this.email);
+        cv.put(DBContract.User.BALANCE, this.balance);
+
+        return cv;
     }
 }

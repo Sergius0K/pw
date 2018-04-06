@@ -10,15 +10,18 @@
         android:layout_width="@dimen/login_row_width"
         android:layout_height="wrap_content"
         android:hint="@string/email"
-        android:layout_marginTop="@dimen/top_margin"/>
+        android:layout_marginTop="@dimen/top_margin"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id = "@+id/password_login"
         android:layout_width="@dimen/login_row_width"
         android:layout_height="wrap_content"
-        android:hint="@string/password" />
+        android:hint="@string/password"
+        android:inputType="textPassword"/>
 
     <Button
+        android:id="@+id/login_button"
         android:layout_width="@dimen/login_row_width"
         android:layout_height="wrap_content"
         android:text="@string/login"/>

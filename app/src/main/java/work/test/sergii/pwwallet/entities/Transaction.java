@@ -1,24 +1,29 @@
 package work.test.sergii.pwwallet.entities;
 
+import android.content.ContentValues;
+
+import work.test.sergii.pwwallet.db.DBContract;
+
 /**
  * Created by sergii on 26.03.18.
  */
 
 public class Transaction {
 
-    public static String TABLENAME = "transaction";
-
-    public static String ID = "id";
-    public static String TRANSACTION_TIME = "transation_time";
-    public static String CORRESPONDENT_NAME = "correspondent_name";
-    public static String AMOUNT = "amount";
-    public static String BALANCE = "balance";
-
     private int transactionId;
     private long transationTime;
-    private String correspondentName;
+    private User correspondent;
     private double amount;
     private double finalBalance;
+
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
+    }
 
     public long getTransationTime() {
         return transationTime;
@@ -28,12 +33,12 @@ public class Transaction {
         this.transationTime = transationTime;
     }
 
-    public String getCorrespondentName() {
-        return correspondentName;
+    public User getCorrespondentName() {
+        return correspondent;
     }
 
-    public void setCorrespondentName(String correspondentName) {
-        this.correspondentName = correspondentName;
+    public void setCorrespondentName(User correspondentName) {
+        this.correspondent = correspondentName;
     }
 
     public double getAmount() {
@@ -51,4 +56,16 @@ public class Transaction {
     public void setFinalBalance(double finalBalance) {
         this.finalBalance = finalBalance;
     }
+
+    public ContentValues getContentValues(){
+        ContentValues cv = new ContentValues();
+
+        cv.put(DBContract.Transaction.AMOUNT, this.amount);
+        cv.put(DBContract.Transaction.CORRESPONDENT_ID, this.correspondent.getId());
+        cv.put(DBContract.Transaction.TRANSACTION_TIME, this.transationTime);
+        cv.put(DBContract.Transaction.BALANCE, this.finalBalance);
+
+        return cv;
+    }
+
 }
