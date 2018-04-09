@@ -32,8 +32,6 @@ public class MainController {
     private static MainController instance;
 
     private DBHelper dbHelper;
-    //TODO реши вопрос с текущим аккаунтом, нет необходимости его передавать каждый раз
-    // тогда используй текущий!
     private Account currentAccount;
     private RestClient restClient;
 
@@ -95,6 +93,44 @@ public class MainController {
                         Intent intent = new Intent(activity, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         activity.startActivity(intent);
+                    }
+                } catch (JSONException ex) {
+                    Log.d(TAG, ex.getMessage());
+                }
+            }
+        });
+    }
+
+    public void refreshAccount(final Account account, final MainActivity activity) {
+
+        restClient.fetchAccountInfo(account, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream in = new BufferedInputStream(response.body().byteStream());
+
+                try {
+                    JSONObject jsonObject = JsonUtil.responceToJson(in);
+
+                    if (jsonObject.has("user_info_token")) {
+
+                        JSONObject userInfo = jsonObject.getJSONObject("user_info_token");
+
+                        account.setUsername(userInfo.getString(JsonUtil.NAME));
+                        account.setEmail(userInfo.getString(JsonUtil.EMAIL));
+                        account.setBalance(userInfo.getDouble(JsonUtil.BALANCE));
+
+                        dbHelper.updateAccount(account);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                activity.refreshAccountInfo(account);
+                            }
+                        });
                     }
                 } catch (JSONException ex) {
                     Log.d(TAG, ex.getMessage());

@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private HistoryFragment historyFragment;
 
     private TextView username;
     private TextView email;
@@ -56,12 +57,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, StartActivity.class);
             startActivity(intent);
         } else {
-            username.setText(account.getUsername());
-            email.setText(account.getEmail());
-            balance.setText(
-                    getString(
-                            R.string.balance,
-                            String.valueOf(account.getBalance())));
+
+            historyFragment = new HistoryFragment();
+
+            mainController.refreshAccount(account, this);
 
             viewPager = findViewById(R.id.viewpager);
             setupViewPager(viewPager);
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         StartActivity.ViewPagerAdapter adapter = new StartActivity.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HistoryFragment(), getString(R.string.history));
+        adapter.addFragment(historyFragment, getString(R.string.history));
         adapter.addFragment(new UsersFragment(), getString(R.string.users));
         viewPager.setAdapter(adapter);
     }
@@ -82,4 +81,14 @@ public class MainActivity extends AppCompatActivity {
         return mainController;
     }
 
+    public void refreshAccountInfo(Account account){
+        username.setText(account.getUsername());
+        email.setText(account.getEmail());
+        balance.setText(
+                getString(
+                        R.string.balance,
+                        String.valueOf(account.getBalance())));
+
+        historyFragment.updateHistoryList();
+    }
 }

@@ -23,6 +23,7 @@ import okhttp3.Response;
 import work.test.sergii.pwwallet.MainController;
 import work.test.sergii.pwwallet.R;
 import work.test.sergii.pwwallet.entities.Transaction;
+import work.test.sergii.pwwallet.ui.activities.MainActivity;
 
 import static work.test.sergii.pwwallet.utils.JsonUtil.jsonToTransactionList;
 
@@ -32,7 +33,7 @@ import static work.test.sergii.pwwallet.utils.JsonUtil.jsonToTransactionList;
 
 public class TransactionUtil {
 
-    public static void showTransactionCreateDialog(final Activity activity,
+    public static void showTransactionCreateDialog(final MainActivity activity,
                                                    final double amount,
                                                    final String recipientUsername,
                                                    final MainController mainController) {
@@ -87,7 +88,7 @@ public class TransactionUtil {
                                             jsonObject.getJSONObject(JsonUtil.TRANSACTION_TOKEN));
                                     mainController.insertTransaction(tr);
 
-                                    mainController.updateAccount(mainController.getCurrentAccount(),activity);
+                                    mainController.refreshAccount(mainController.getCurrentAccount(),activity);
 
                                 } catch (JSONException ex) {
                                     ex.getMessage();

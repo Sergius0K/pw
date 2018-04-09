@@ -103,7 +103,7 @@ public class UsersFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TransactionUtil.showTransactionCreateDialog(getActivity(),
+                TransactionUtil.showTransactionCreateDialog((MainActivity) getActivity(),
                         BASIC_AMOUNT,
                         (String)parent.getItemAtPosition(position),
                         mainController);

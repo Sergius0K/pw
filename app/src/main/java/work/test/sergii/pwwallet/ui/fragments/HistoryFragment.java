@@ -41,6 +41,7 @@ public class HistoryFragment extends Fragment {
 
     private ListView historyListView;
     private List<Transaction> transactionList = new ArrayList<>();
+    private TransactionsAdapter transactionsAdapter;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -61,18 +62,32 @@ public class HistoryFragment extends Fragment {
             public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
                 Transaction tr =(Transaction) parent.getItemAtPosition(position);
 
-                TransactionUtil.showTransactionCreateDialog(getActivity(),
+                TransactionUtil.showTransactionCreateDialog((MainActivity) getActivity(),
                         Math.abs(tr.getAmount()),
                         tr.getCorrespondentName(),
                         mainController);
             }
         });
 
-        final TransactionsAdapter transactionsAdapter = new TransactionsAdapter(
+        transactionsAdapter  = new TransactionsAdapter(
                 getActivity(),
                 R.layout.adapter_transaction_item,
                 transactionList);
 
+        updateHistoryList();
+
+        historyListView.setAdapter(transactionsAdapter);
+
+        return view;
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    public void updateHistoryList(){
         mainController.fetchAllTransactions(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -84,6 +99,7 @@ public class HistoryFragment extends Fragment {
                 try {
                     JSONObject jsonArray = JsonUtil.responceToJson(response.body().byteStream());
 
+                    transactionList.clear();
                     transactionList.addAll(
                             JsonUtil.jsonToTransactionList(
                                     jsonArray.getJSONArray(JsonUtil.TRANSACTION_TOKEN)));
@@ -100,15 +116,5 @@ public class HistoryFragment extends Fragment {
                 }
             }
         });
-
-        historyListView.setAdapter(transactionsAdapter);
-
-        return view;
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
     }
 }
