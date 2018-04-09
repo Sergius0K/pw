@@ -1,4 +1,4 @@
-package work.test.sergii.pwwallet;
+package work.test.sergii.pwwallet.utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,9 +7,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import work.test.sergii.pwwallet.entities.Account;
-import work.test.sergii.pwwallet.entities.User;
 
 /**
  * Created by sergii on 02.04.18.
@@ -97,6 +98,11 @@ public class JsonUtil {
         return new JSONObject(sb.toString());
     }
 
+    public static List<String> jsonToUsersList(JSONObject jsonObject){
 
+        List<String> usersList = new ArrayList<>();
+
+        return usersList;
+    }
 
 }

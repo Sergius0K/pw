@@ -9,9 +9,25 @@
     <string name="repeat_password">Repeat password</string>
     <string name="username">Username</string>
 
+    <string name="history">History</string>
+    <string name="users">Users</string>
 
-    <string name="balance">%s Руб.</string>
+    <string name="balance">%s PW.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- transaction dialog -->
+    <string name="dialog_transaction_title">Transaction</string>
+    <string name="dialog_transaction_recipient_name">Recipient name</string>
+    <string name="dialog_transaction_amount">Amount</string>
+    <string name="dialog_transaction_current_balance">Current balance</string>
+    <string name="dialog_transaction_account_username">Username</string>
+
+    <string name="you_want_copy_transaction">Do you want to copy transaction?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- errors -->
+    <string name="cant_be_empty">Cant be empty</string>
+    <string name="error">Error: %s</string>
+    <string name="password_do_not_match">Your password and confirmation password do not match</string>
+
 </resources>

@@ -1,10 +1,8 @@
 package work.test.sergii.pwwallet;
 
-import android.app.Service;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -20,6 +18,8 @@ import okhttp3.Response;
 import work.test.sergii.pwwallet.db.DBHelper;
 import work.test.sergii.pwwallet.entities.Account;
 import work.test.sergii.pwwallet.rest.RestClient;
+import work.test.sergii.pwwallet.ui.activities.MainActivity;
+import work.test.sergii.pwwallet.utils.JsonUtil;
 
 /**
  * Created by sergii on 02.04.18.
@@ -31,6 +31,8 @@ public class MainController {
     private static MainController instance;
 
     private DBHelper dbHelper;
+    //TODO реши вопрос с текущим аккаунтом, нет необходимости его передавать каждый раз
+    // тогда используй текущий!
     private Account currentAccount;
     private RestClient restClient;
 
@@ -50,7 +52,8 @@ public class MainController {
 
     public Account getCurrentAccount() {
 
-        return dbHelper.getAllAccounts();
+        currentAccount = dbHelper.getAllAccounts();
+        return currentAccount;
     }
 
     public void registerAccount(Account account, Callback callback) {
@@ -67,7 +70,7 @@ public class MainController {
         dbHelper.insertAccount(account);
     }
 
-    public void updateAccount(final Account account) {
+    public void updateAccount(final Account account, final Activity activity) {
 
         restClient.fetchAccountInfo(account, new Callback() {
             @Override
@@ -91,11 +94,25 @@ public class MainController {
                         account.setBalance(userInfo.getDouble(JsonUtil.BALANCE));
 
                         dbHelper.insertAccount(account);
+
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        activity.startActivity(intent);
                     }
                 } catch (JSONException ex) {
                     Log.d(TAG, ex.getMessage());
                 }
             }
         });
+    }
+
+    public void fetchAllUsersList(Callback callback) {
+
+        restClient.filterUsersList(currentAccount, "", callback);
+    }
+
+    public void commitTransaction(String name, double amount, Callback callback) {
+
+        restClient.createTransation(currentAccount, name, String.valueOf(amount), callback);
     }
 }

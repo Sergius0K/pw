@@ -12,7 +12,7 @@ public class Transaction {
 
     private int transactionId;
     private long transationTime;
-    private User correspondent;
+    private String correspondent;
     private double amount;
     private double finalBalance;
 
@@ -33,11 +33,11 @@ public class Transaction {
         this.transationTime = transationTime;
     }
 
-    public User getCorrespondentName() {
+    public String getCorrespondentName() {
         return correspondent;
     }
 
-    public void setCorrespondentName(User correspondentName) {
+    public void setCorrespondentName(String correspondentName) {
         this.correspondent = correspondentName;
     }
 
@@ -61,11 +61,22 @@ public class Transaction {
         ContentValues cv = new ContentValues();
 
         cv.put(DBContract.Transaction.AMOUNT, this.amount);
-        cv.put(DBContract.Transaction.CORRESPONDENT_ID, this.correspondent.getId());
+        cv.put(DBContract.Transaction.CORRESPONDENT_ID, this.correspondent);
         cv.put(DBContract.Transaction.TRANSACTION_TIME, this.transationTime);
         cv.put(DBContract.Transaction.BALANCE, this.finalBalance);
 
         return cv;
     }
 
+    public Transaction clone(){
+        Transaction copy = new Transaction();
+
+        copy.setTransationTime(this.transationTime);
+        copy.setFinalBalance(this.finalBalance);
+        copy.setAmount(this.amount);
+        copy.setTransactionId(this.transactionId);
+        copy.setCorrespondentName(this.correspondent);
+
+        return copy;
+    }
 }

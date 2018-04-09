@@ -1,6 +1,8 @@
 package work.test.sergii.pwwallet.ui.activities;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,10 @@ import android.widget.TextView;
 import work.test.sergii.pwwallet.MainController;
 import work.test.sergii.pwwallet.R;
 import work.test.sergii.pwwallet.entities.Account;
+import work.test.sergii.pwwallet.ui.fragments.HistoryFragment;
+import work.test.sergii.pwwallet.ui.fragments.LoginFragment;
+import work.test.sergii.pwwallet.ui.fragments.RegistrationFragment;
+import work.test.sergii.pwwallet.ui.fragments.UsersFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private Account account;
 
     private Toolbar toolbar;
-
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     private TextView username;
     private TextView email;
@@ -55,6 +62,24 @@ public class MainActivity extends AppCompatActivity {
                     getString(
                             R.string.balance,
                             String.valueOf(account.getBalance())));
+
+            viewPager = findViewById(R.id.viewpager);
+            setupViewPager(viewPager);
+
+            tabLayout = findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
         }
     }
+
+    private void setupViewPager(ViewPager viewPager) {
+        StartActivity.ViewPagerAdapter adapter = new StartActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new HistoryFragment(), getString(R.string.history));
+        adapter.addFragment(new UsersFragment(), getString(R.string.users));
+        viewPager.setAdapter(adapter);
+    }
+
+    public MainController getMainController(){
+        return mainController;
+    }
+
 }

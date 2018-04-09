@@ -23,16 +23,6 @@ public class DBContract {
         public String BALANCE = "balance";
     }
 
-    public interface User extends BaseColumns {
-
-        public String TABLENAME = "users";
-
-        public String ID = "id";
-        public String USERNAME = "username";
-        public String EMAIL = "email";
-        public String BALANCE = "balance";
-    }
-
     public interface Transaction extends BaseColumns {
 
         public String TABLENAME = "transactions";

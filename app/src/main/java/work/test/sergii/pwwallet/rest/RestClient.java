@@ -9,9 +9,8 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import work.test.sergii.pwwallet.JsonUtil;
 import work.test.sergii.pwwallet.entities.Account;
-import work.test.sergii.pwwallet.entities.User;
+import work.test.sergii.pwwallet.utils.JsonUtil;
 
 /**
  * Created by sergii on 01.04.18.
@@ -183,7 +182,7 @@ public class RestClient {
     }
 
     /**
-     * Filtered User list
+     * Filtered user list
      * POST /api/protected/users/list
      * authentication: bearer
      * body:

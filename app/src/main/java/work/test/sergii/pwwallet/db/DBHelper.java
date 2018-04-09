@@ -7,12 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import work.test.sergii.pwwallet.entities.Account;
 import work.test.sergii.pwwallet.entities.Transaction;
-import work.test.sergii.pwwallet.entities.User;
 
 /**
  * Created by sergii on 26.03.18.
@@ -41,11 +37,6 @@ public class DBHelper extends SQLiteOpenHelper {
             DBContract.Transaction.BALANCE + " REAL NOT NULL," +
             DBContract.Transaction.TRANSACTION_TIME + " INTEGER NOT NULL" + ")";
 
-    private String CREATE_USERS_TABLE = "CREATE TABLE " + DBContract.User.TABLENAME + "( " +
-            DBContract.User.ID + " INTEGER UNSIGNED PRIMARY KEY," +
-            DBContract.User.USERNAME + " TEXT NOT NULL," +
-            DBContract.User.EMAIL + " TEXT NOT NULL," +
-            DBContract.User.BALANCE + " REAL NOT NULL" + ")";
 
     public static DBHelper instance;
 
@@ -81,7 +72,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(CREATE_ACCOUNT_TABLE);
-        db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_TRANSACTION_TABLE);
     }
 
@@ -134,65 +124,20 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete(DBContract.Account.TABLENAME,  null, null );
     }
 
-    public long insertUser(User user){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(DBContract.User.TABLENAME,  null , user.getContentValues());
-    }
 
-    public List<User> getAllUsers(){
-
-        List<User> users = new ArrayList<>();
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor cursor = db.query(DBContract.Account.TABLENAME,
-                null, null, null,
-                null, null, null);
-        User user;
-        try {
-            if (cursor.moveToFirst()) {
-                do {
-                    user = new User();
-                    user.setUsername(cursor.getString(cursor.getColumnIndex(DBContract.User.USERNAME)));
-                    user.setEmail(cursor.getString(cursor.getColumnIndex(DBContract.User.EMAIL)));
-                    user.setBalance(cursor.getDouble(cursor.getColumnIndex(DBContract.User.BALANCE)));
-                    user.setId(cursor.getString(cursor.getColumnIndex(DBContract.User.ID)));
-
-                    users.add(user);
-                } while (cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "Error while trying to get posts from database");
-        } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
-        }
-
-        return users;
-    }
-
-    public void updateUser(User user){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.update(DBContract.User.TABLENAME,  user.getContentValues(), DBContract.User.ID+"= ?" , new String [] {user.getId()});
-    }
-
-    public void deleteUser(User user){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DBContract.User.TABLENAME,  DBContract.User.ID+"= ?" , new String [] {user.getId()});
-    }
 
     public long insertTransaction(Transaction  transaction){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(DBContract.User.TABLENAME,  null , transaction.getContentValues());
+        return db.insert(DBContract.Transaction.TABLENAME,  null , transaction.getContentValues());
     }
 
-    public void updateUser(Transaction transaction){
+    public void updateTransaction(Transaction transaction){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.update(DBContract.User.TABLENAME,  transaction.getContentValues(), DBContract.User.ID+"= ?" , new String [] {String.valueOf(transaction.getTransactionId())});
+        db.update(DBContract.Transaction.TABLENAME,  transaction.getContentValues(), DBContract.Transaction.ID+"= ?" , new String [] {String.valueOf(transaction.getTransactionId())});
     }
 
-    public void deleteUser(Transaction transaction){
+    public void deleteTransaction(Transaction transaction){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DBContract.User.TABLENAME,  DBContract.User.ID+"= ?" , new String [] { String.valueOf(transaction.getTransactionId())});
+        db.delete(DBContract.Transaction.TABLENAME,  DBContract.Transaction.ID+"= ?" , new String [] { String.valueOf(transaction.getTransactionId())});
     }
 }

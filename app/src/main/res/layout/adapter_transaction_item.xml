@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/account_info"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/user_info_margin">
+
+    <TextView
+        android:id="@+id/transaction_correspondent_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Username"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/transaction_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/username_main"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:text="date and time"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/transaction_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/transaction_copy_action"
+        android:text="1000.00 Руб"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/transaction_resulting_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transaction_amount"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/transaction_copy_action"
+        android:text="date and time"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/transaction_copy_action"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_content_copy"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

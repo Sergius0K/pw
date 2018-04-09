@@ -33,7 +33,6 @@ public class StartActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -54,7 +53,7 @@ public class StartActivity extends AppCompatActivity {
         return mainController;
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    public static class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
