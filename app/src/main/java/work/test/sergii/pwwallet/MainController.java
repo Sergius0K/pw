@@ -17,6 +17,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import work.test.sergii.pwwallet.db.DBHelper;
 import work.test.sergii.pwwallet.entities.Account;
+import work.test.sergii.pwwallet.entities.Transaction;
 import work.test.sergii.pwwallet.rest.RestClient;
 import work.test.sergii.pwwallet.ui.activities.MainActivity;
 import work.test.sergii.pwwallet.utils.JsonUtil;
@@ -66,10 +67,6 @@ public class MainController {
         restClient.login(account, callback);
     }
 
-    public void saveAccount(Account account) {
-        dbHelper.insertAccount(account);
-    }
-
     public void updateAccount(final Account account, final Activity activity) {
 
         restClient.fetchAccountInfo(account, new Callback() {
@@ -106,13 +103,23 @@ public class MainController {
         });
     }
 
-    public void fetchAllUsersList(Callback callback) {
+    public void fetchAllUsersList(String filter, Callback callback) {
 
-        restClient.filterUsersList(currentAccount, "", callback);
+        restClient.filterUsersList(currentAccount, filter, callback);
     }
 
     public void commitTransaction(String name, double amount, Callback callback) {
 
         restClient.createTransation(currentAccount, name, String.valueOf(amount), callback);
+    }
+
+    public void fetchAllTransactions(Callback callback) {
+
+        restClient.getListOfTransactions(currentAccount, callback);
+    }
+
+    public void insertTransaction(Transaction transaction) {
+
+        dbHelper.insertTransaction(transaction);
     }
 }

@@ -30,4 +30,6 @@
     <string name="error">Error: %s</string>
     <string name="password_do_not_match">Your password and confirmation password do not match</string>
 
+    <string name="too_much">Cant transfer more than you have on your balance.</string>
+
 </resources>

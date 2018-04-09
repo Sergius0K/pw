@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.List;
 
 import work.test.sergii.pwwallet.R;
 import work.test.sergii.pwwallet.entities.Transaction;
 import work.test.sergii.pwwallet.ui.CreateTransactionDialog;
+import work.test.sergii.pwwallet.utils.TransactionUtil;
 
 /**
  * Created by sergii on 07.04.18.
@@ -47,10 +49,15 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
         TextView resultingBalance = convertView.findViewById(R.id.transaction_resulting_balance);
 
         correspondentName.setText(tr.getCorrespondentName());
-        dateTime.setText(String.valueOf(tr.getTransationTime()));
+        try {
+            dateTime.setText(TransactionUtil.getStringFromDate(tr.getTransationTime()));
+        }catch (ParseException pe) {
+            pe.getMessage();
+            dateTime.setText("");
+        }
+
         amount.setText(String.valueOf(tr.getAmount()));
         resultingBalance.setText(String.valueOf(tr.getFinalBalance()));
-
 
         return convertView;
     }

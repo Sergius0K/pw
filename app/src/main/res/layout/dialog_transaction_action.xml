@@ -2,108 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="right"
+    android:padding="@dimen/dialog_padding"
     android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/account_username_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="Username"
-            android:textSize="12sp" />
+            android:text="@string/username" />
 
         <TextView
             android:id="@+id/account_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/username_main"
-            android:text="date and time"
-            android:textSize="14sp" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/account_amount_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="1000.00 Руб"
-            android:textSize="24sp" />
+            android:text="@string/dialog_transaction_current_balance"/>
 
         <TextView
             android:id="@+id/account_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/transaction_amount"
-            android:text="date and time"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/recipient_name_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="Username"
-            android:textSize="12sp" />
+            android:text="@string/dialog_transaction_recipient_name" />
 
         <TextView
             android:id="@+id/recipient_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/username_main"
-            android:text="date and time"
-            android:textSize="14sp" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/recipient_amount_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="1000.00 Руб"
-            android:textSize="24sp" />
+            android:text="@string/dialog_transaction_amount"/>
 
         <EditText
             android:id="@+id/recipient_amount"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/transaction_amount"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/ok_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ok" />
-
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
-    </LinearLayout>
+            android:inputType="numberDecimal" />
 </LinearLayout>

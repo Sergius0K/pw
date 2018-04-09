@@ -12,6 +12,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +29,8 @@ import work.test.sergii.pwwallet.R;
 import work.test.sergii.pwwallet.entities.Transaction;
 import work.test.sergii.pwwallet.ui.activities.MainActivity;
 import work.test.sergii.pwwallet.ui.adapters.TransactionsAdapter;
+import work.test.sergii.pwwallet.utils.JsonUtil;
+import work.test.sergii.pwwallet.utils.TransactionUtil;
 
 /**
  *
@@ -49,69 +55,25 @@ public class HistoryFragment extends Fragment {
         mainController = ((MainActivity) getActivity()).getMainController();
 
         historyListView = view.findViewById(R.id.history_list);
-        Transaction tempTr;
 
         historyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
+                Transaction tr =(Transaction) parent.getItemAtPosition(position);
 
-                final Transaction currentTransaction = (Transaction) parent.getItemAtPosition(position);
-
-                AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
-                ad.setTitle(getContext().getString(R.string.you_want_copy_transaction));
-                ad.setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-
-                        mainController.commitTransaction(
-                                currentTransaction.getCorrespondentName(),
-                                currentTransaction.getAmount(),
-                                new Callback() {
-                                    @Override
-                                    public void onFailure(Call call, IOException e) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-
-                                    }
-                                });
-
-                        Toast.makeText(getContext(), "Вы сделали правильный выбор",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-                ad.setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        Toast.makeText(getContext(), "Возможно вы правы", Toast.LENGTH_LONG)
-                                .show();
-                    }
-                });
-
-                ad.show();
+                TransactionUtil.showTransactionCreateDialog(getActivity(),
+                        Math.abs(tr.getAmount()),
+                        tr.getCorrespondentName(),
+                        mainController);
             }
         });
-
-        for(int i = 0; i < 20; i++ ) {
-            tempTr = new Transaction();
-
-            tempTr.setCorrespondentName("User " + String.valueOf(i));
-            tempTr.setTransactionId(i);
-            tempTr.setAmount(200.0d);
-            tempTr.setFinalBalance(300.d);
-            tempTr.setTransationTime(new Date().getTime() + i);
-
-            transactionList.add(tempTr );
-        }
 
         final TransactionsAdapter transactionsAdapter = new TransactionsAdapter(
                 getActivity(),
                 R.layout.adapter_transaction_item,
                 transactionList);
 
-
-
-        mainController.fetchAllUsersList(new Callback() {
+        mainController.fetchAllTransactions(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -119,11 +81,23 @@ public class HistoryFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject jsonArray = JsonUtil.responceToJson(response.body().byteStream());
 
-                // TODO необходимо распарсить ответ и заполнить список транзакций
-                //transactionList
+                    transactionList.addAll(
+                            JsonUtil.jsonToTransactionList(
+                                    jsonArray.getJSONArray(JsonUtil.TRANSACTION_TOKEN)));
 
-                transactionsAdapter.notifyDataSetChanged();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            transactionsAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                } catch (JSONException ex) {
+                    ex.getMessage();
+                }
             }
         });
 
