@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -104,6 +106,16 @@ public class HistoryFragment extends Fragment {
                             JsonUtil.jsonToTransactionList(
                                     jsonArray.getJSONArray(JsonUtil.TRANSACTION_TOKEN)));
 
+                    Collections.sort(transactionList, new Comparator<Transaction>() {
+                        @Override
+                        public int compare(Transaction o1, Transaction o2) {
+
+                            Date o1Date = new Date(o1.getTransationTime());
+                            Date o2Date = new Date(o2.getTransationTime());
+
+                            return o2Date.compareTo(o1Date);
+                        }
+                    });
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

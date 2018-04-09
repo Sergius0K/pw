@@ -7,15 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -24,8 +23,6 @@ import work.test.sergii.pwwallet.MainController;
 import work.test.sergii.pwwallet.R;
 import work.test.sergii.pwwallet.entities.Transaction;
 import work.test.sergii.pwwallet.ui.activities.MainActivity;
-
-import static work.test.sergii.pwwallet.utils.JsonUtil.jsonToTransactionList;
 
 /**
  * Created by sergii on 09.04.18.
@@ -70,13 +67,12 @@ public class TransactionUtil {
                     double amount = Double.parseDouble(recipientAmount.getText().toString());
 
                     if (amount > mainController.getCurrentAccount().getBalance()) {
-                        recipientAmount.setError(activity.getString(R.string.too_much));
-
+                        toastMessage(activity, activity.getString(R.string.too_much));
                     } else {
                         mainController.commitTransaction(recipientUsername, amount, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
-
+                                toastMessage(activity, e.getMessage());
                             }
 
                             @Override
@@ -91,15 +87,15 @@ public class TransactionUtil {
                                     mainController.refreshAccount(mainController.getCurrentAccount(),activity);
 
                                 } catch (JSONException ex) {
-                                    ex.getMessage();
+                                    toastMessage(activity, ex.getMessage());
                                 } catch (ParseException ex) {
-                                    ex.getMessage();
+                                    toastMessage(activity, ex.getMessage());
                                 }
                             }
                         });
                     }
                 } else {
-                    recipientAmount.setError(activity.getString(R.string.cant_be_empty));
+                    toastMessage(activity, activity.getString(R.string.cant_be_empty));
                 }
             }
         });
@@ -117,5 +113,13 @@ public class TransactionUtil {
     //long to 16:01:05 09.04.2018
     public static String getStringFromDate(Long dateString) throws ParseException {
         return new SimpleDateFormat("HH:mm:ss dd.MM.yyyy").format(dateString);
+    }
+
+    public static void toastMessage(Activity activity, String message) {
+        Toast.makeText(
+                activity,
+                message,
+                Toast.LENGTH_LONG
+        ).show();
     }
 }

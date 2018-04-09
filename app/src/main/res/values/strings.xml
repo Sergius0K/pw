@@ -15,7 +15,7 @@
     <string name="balance">%s PW.</string>
 
     <!-- transaction dialog -->
-    <string name="dialog_transaction_title">Transaction</string>
+    <string name="dialog_transaction_title">New transaction</string>
     <string name="dialog_transaction_recipient_name">Recipient name</string>
     <string name="dialog_transaction_amount">Amount</string>
     <string name="dialog_transaction_current_balance">Current balance</string>
